@@ -1,23 +1,39 @@
-import type { updateProfilePayload } from '~/types';
+import type { UpdateProfilePayload } from '~/types';
 import { api } from '~/utils/api';
 
-export function login(email: string, password: string) {
-  return api().post('/auth/login', { email, password });
+export async function getCsrfToken() {
+  const res = await api().get('/csrf/csrf-token');
+  return res.data.csrfToken;
 }
 
-export function register(email: string, password: string) {
-  return api().post('/auth/register', { email, password });
+export async function login(email: string, password: string) {
+  const csrfToken = await getCsrfToken();
+  return api().post('/auth/login', { email, password }, {
+    headers: { 'x-csrf-token': csrfToken }
+  });
 }
 
-export function logout() {
-  return api().post('/auth/logout');
+export async function register(email: string, password: string) {
+  const csrfToken = await getCsrfToken();
+  return api().post('/auth/register', { email, password }, {
+    headers: { 'x-csrf-token': csrfToken }
+  });
 }
 
-export function getProfile() {
+export async function logout() {
+  const csrfToken = await getCsrfToken();
+  return api().post('/auth/logout', {}, {
+    headers: { 'x-csrf-token': csrfToken }
+  });
+}
+
+export async function getProfile() {
   return api().get('/auth/profile');
 }
 
 export async function updateProfile(payload: UpdateProfilePayload) {
+  const csrfToken = await getCsrfToken();
+  
   const data = new FormData();
   if(payload.username) data.append('username', payload.username);
   if(payload.phone) data.append('phone', payload.phone);
@@ -25,6 +41,9 @@ export async function updateProfile(payload: UpdateProfilePayload) {
   if(payload.avatar) data.append('avatar', payload.avatar);
 
   return api().patch('/auth/profile', data, {
-    headers: { 'Content-Type': 'multipart/form-data' }
+    headers: {
+      'Content-Type': 'multipart/form-data',
+      'x-csrf-token': csrfToken
+    }
   });
 }
