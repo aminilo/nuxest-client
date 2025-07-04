@@ -1,0 +1,10 @@
+{
+  "settings": {
+    "title": "Settings",
+    "language": "Language",
+    "compactMode": "Compact Mode",
+    "sidebarHover": "Sidebar Hover",
+    "dataSaver": "Data Saver",
+    "reset": "Reset Settings"
+  }
+}

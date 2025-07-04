@@ -1,0 +1,10 @@
+{
+  "settings": {
+    "title": "تنظیمات",
+    "language": "زبان",
+    "compactMode": "حالت فشرده",
+    "sidebarHover": "نمایش سایدبار با هاور",
+    "dataSaver": "صرفه جویی در داده",
+    "reset": "بازنشانی تنظیمات"
+  }
+}
