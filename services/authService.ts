@@ -7,12 +7,10 @@ import { api } from '~/utils/api';
 }*/
 
 export async function login(email: string, password: string) {
-  const csrfToken = await getCsrfToken();
   return api().post('/auth/login', { email, password });
 }
 
 export async function register(email: string, password: string) {
-  const csrfToken = await getCsrfToken();
   return api().post('/auth/register', { email, password });
 }
 
@@ -25,8 +23,6 @@ export async function getProfile() {
 }
 
 export async function updateProfile(payload: UpdateProfilePayload) {
-  const csrfToken = await getCsrfToken();
-  
   const data = new FormData();
   if(payload.username) data.append('username', payload.username);
   if(payload.phone) data.append('phone', payload.phone);
