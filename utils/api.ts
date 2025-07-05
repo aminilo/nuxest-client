@@ -1,10 +1,13 @@
 import axios from 'axios';
 
 export const api = () => {
-  const config = useRuntimeConfig()
   return axios.create({
-    baseURL: config.public.apiBaseUrl,
-    headers: { 'Content-Type': 'application/json' },
-    withCredentials: true
+    // const { public: { apiBaseUrl } } = useRuntimeConfig();
+    // baseURL: apiBaseUrl,
+    baseURL: useRuntimeConfig().public.apiBaseUrl,
+    // headers: { 'Content-Type': 'application/json' },
+    withCredentials: true,
+    xsrfCookieName: 'XSRF-TOKEN', /* cookie the server sets */
+    xsrfHeaderName: 'x-csrf-token' /* header to send it back in */
   });
 };
